@@ -46,6 +46,7 @@
 		echo "\n";
 		
 		echo "		BlockCrawler Script Created By Jake Paysnoe - Donations: 1MoWrpf4DjLiL1ALtE6WAAPfHj1aZt38CE \n";
+		echo "		CURL Modifications By Daniel Morante - Donations: 1B6eyXVRPxdEitW5vWrUnzzXUy6o38P9wN \n";
 		
 		echo "	</div>\n";
 		echo "\n";
@@ -334,7 +335,7 @@
 	}
 	
 /******************************************************************************
-	This script is Copyright © 2013 Jake Paysnoe.
+	This script is Copyright ï¿½ 2013 Jake Paysnoe.
 	I hereby release this script into the public domain.
 	Jake Paysnoe Jun 26, 2013
 ******************************************************************************/
