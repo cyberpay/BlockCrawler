@@ -19,9 +19,16 @@ top you will find the following code:
 	$GLOBALS["wallet_user"] = "username";
 	$GLOBALS["wallet_pass"] = "password";
 	
+	
 It is important to replace these values with the correct information for your daemon.
 
+If you don't have CURL, you can disable it and use built in PHP functions.
+Note: You'll need to allow fopen() for remote URL's.
+
+        $GLOBALS["use_curl"] = false;
+
 The daemon will worh with RPCSSL configured if your version of cURL supports it.
+SSL Support not not avialable without CURL at the moment.
 
 Here are some sample entries for the value $GLOBALS["wallet_ip"]:
 
