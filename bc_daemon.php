@@ -4,11 +4,13 @@
 	Wallet Configuration
 ******************************************************************************/
 	$GLOBALS["wallet_ip"] = "127.0.0.1";
-	$GLOBALS["wallet_port"] = "8332";
-	$GLOBALS["wallet_user"] = "usrename";
-	$GLOBALS["wallet_pass"] = "password";
-	
+	$GLOBALS["wallet_port"] = "17778";
+	$GLOBALS["wallet_user"] = "admin";
+	$GLOBALS["wallet_pass"] = "21123";
 
+	// Use CURL instead of built-in functions
+	// You need php-curl extension
+	$GLOBALS["use_curl"] = false;
 /******************************************************************************
 
 	Block Chain And Network Information
@@ -112,12 +114,9 @@
 	This function is used to request information form the daemon.
 
 ******************************************************************************/
-
-	function wallet_fetch ($request_array)
-	{
-	//	Encode the request as JSON for the wallet
-		$request = json_encode ($request_array);
-
+	
+	// Uses CURL (external dependacy) to communicate with wallet
+	function get_json_curl($request){
 	//	Create curl connection object
 		$coind = curl_init();
 		
@@ -153,6 +152,37 @@
 	//	Close the connection
 		curl_close($coind);
 		
+		return $response_data;
+	}
+	
+	// Uses Built-in functions to communicate with wallet
+	function get_json_fopen($request){
+		$options = array(
+			'http' => array(
+				'method'  => 'POST',
+				'content' => $request,
+				'header'=>  "Content-Type: application/json\r\n" .
+							"Accept: application/json\r\n"
+			)
+		);
+		$context  = stream_context_create( $options );
+		$url = 'http://' . $GLOBALS["wallet_user"].":".$GLOBALS["wallet_pass"] . '@' . $GLOBALS["wallet_ip"] . ':' . $GLOBALS["wallet_port"];
+		return file_get_contents( $url, false, $context );
+	}
+
+	function wallet_fetch ($request_array)
+	{
+	
+	//	Encode the request as JSON for the wallet
+		$request = json_encode ($request_array);
+		
+		if($GLOBALS["use_curl"]){
+			$response_data = get_json_curl($request);
+		}
+		else{
+			$response_data = get_json_fopen($request);
+		}
+
 	//	The JSON response is read into an array
 		$info = json_decode ($response_data, TRUE);
 		
